@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+if ARGV[0].nil?
+  puts "Usage: scramble <file>"
+  puts "-brick"
+  exit 1
+elsif ARGV[0] == '--help'
+  puts "Usage: scramble <file>"
+  puts "Options:"
+  puts "--keep-empty-lines | Preserves empty (blank) lines when shuffling, rather than removing them"
+  puts "--stdout | Outputs file to stdout rather than operating in place. Can be piped to new file"
+  puts "-brick"
+  exit
+elsif not File.exist? ARGV[0]
+  puts "File not found"
+  exit 1
+end
+if ARGV.include?('--keep-empty-lines')
+  data = File.readlines(ARGV[0]).shuffle
+else
+  data = File.readlines(ARGV[0]).shuffle.reject(&:empty?)
+end
+if ARGV.include?('--stdout')
+  puts data
+else
+  File.open(ARGV[0], 'w') { |f| f.puts data }
+end

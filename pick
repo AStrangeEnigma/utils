@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+if ARGV[0].nil?
+  puts "Usage: pick <file> [line count]"
+  puts "-brick"
+  exit 1
+elsif ARGV[0] == '--help'
+  puts "Usage: pick <file> [line count]"
+  puts "If line count is included pick won't try to process the file for line count itself. It is also a way of limiting the random choice to the first x lines"
+  puts "-brick"
+  exit
+elsif !File.exist? ARGV[0]
+  puts "File not found"
+  exit 1
+end
+def read_line_number(filename, number)
+  counter = 0
+  line = nil
+  File.foreach(filename) do |li|
+    counter += 1
+    if counter == number
+      line = li.chomp
+      break
+    end
+  end
+  line
+end
+if ARGV[1]
+  count = ARGV[1].to_i
+else
+  count = File.foreach(ARGV[0]).inject(0) {|c, line| c+1}
+end
+puts read_line_number(ARGV[0], rand(1..count))

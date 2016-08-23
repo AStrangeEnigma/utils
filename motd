@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "The word of the day is: `pick /usr/share/dict/words`" > /etc/motd
+
